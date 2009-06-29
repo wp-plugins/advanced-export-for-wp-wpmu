@@ -26,9 +26,13 @@ Export by any optional combination of:
 Support can be obtained through:
 
 [Try the Wordpress Forums first](http://wordpress.org/tags/advanced-export-for-wp-wpmu?forum_id=10#postform)
+
 [Twitter](http://twitter.com/wpmuguru)
+
 [Weblogtoolscollection](http://weblogtoolscollection.com/pluginblog/2009/06/27/advanced-export-for-wp-and-wpmu/)
+
 [WPMU Tutorials](http://wpmututorials.com/contact/)
+
 [Ron and Andrea](http://ronandandrea.com/contact/)
 
 == Installation ==
