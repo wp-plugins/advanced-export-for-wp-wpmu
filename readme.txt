@@ -43,6 +43,9 @@ Support can be obtained through:
 
 == Changelog ==
 
+= 2.8.0.1 =
+* Added block to prevent direct calling of file.
+
 = 2.8 =
 * Original version.
 

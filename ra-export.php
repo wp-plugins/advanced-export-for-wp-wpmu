@@ -24,7 +24,9 @@ Author URI: http://ronandandrea.com/
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
+if(!defined('ABSPATH')) {
+	die("Don't call this file directly.");
+}
 if(isset($_GET['page']) && $_GET['page'] == 'ra_export' && isset( $_GET['download'] ) ) {
 	add_action('init', 'ra_do_export');
 }
@@ -32,8 +34,8 @@ function ra_do_export() {
 	if(current_user_can('import')) {
 		$author = isset($_GET['author']) ? $_GET['author'] : 'all';
 		$category = isset($_GET['category']) ? $_GET['category'] : 'all';
-		$post_type = isset($_GET['post_type']) ? $_GET['post_type'] : 'all';
-		$status = isset($_GET['status']) ? $_GET['status'] : 'all';
+		$post_type = isset($_GET['post_type']) ? wp_specialchars($_GET['post_type']) : 'all';
+		$status = isset($_GET['status']) ? wp_specialchars($_GET['status']) : 'all';
 		$mm_start = isset($_GET['mm_start']) ? $_GET['mm_start'] : 'all';
 		$mm_end = isset($_GET['mm_end']) ? $_GET['mm_end'] : 'all';
 		$aa_start = isset($_GET['aa_start']) ? intval($_GET['aa_start']) : 0;
@@ -82,7 +84,7 @@ function ra_export_wp($author='', $category='', $post_type='', $status='', $star
 	}
 	if ( $author and $author != 'all' ) {
 		$author_id = (int) $author;
-		$where .= $wpdb->prepare("AND post_author = %d ", $author_id);
+		$where = $wpdb->prepare("AND post_author = %d ", $author_id);
 	}
 	if ( $start_date and $start_date != 'all' ) {
 		$where .= $wpdb->prepare("AND post_date >= %s ", $start_date);
