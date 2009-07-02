@@ -3,7 +3,7 @@
 Plugin Name: Advanced Export for WordPress & WordPress MU 
 Plugin URI: http://wpmututorials.com/
 Description: Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
-Version: 2.8
+Version: 2.8.1
 Author: Ron Rennick
 Author URI: http://ronandandrea.com/
  
@@ -84,7 +84,7 @@ function ra_export_wp($author='', $category='', $post_type='', $status='', $star
 	}
 	if ( $author and $author != 'all' ) {
 		$author_id = (int) $author;
-		$where = $wpdb->prepare("AND post_author = %d ", $author_id);
+		$where .= $wpdb->prepare("AND post_author = %d ", $author_id);
 	}
 	if ( $start_date and $start_date != 'all' ) {
 		$where .= $wpdb->prepare("AND post_date >= %s ", $start_date);
