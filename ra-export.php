@@ -92,7 +92,7 @@ function ra_export_wp($author='', $category='', $post_type='', $status='', $star
 	if ( $end_date and $end_date != 'all' ) {
 		$where .= $wpdb->prepare("AND post_date < %s ", $end_date);
 	}
-	if ( $category and $category != 'all' ) {
+	if ( $category and $category != 'all' and version_compare($wpdb->db_version(), '4.1', 'ge')) {
 		$taxomony_id = (int) $category;
 		$where .= $wpdb->prepare("AND ID IN (SELECT object_id FROM {$wpdb->term_relationships} " .
 			"WHERE term_taxonomy_id = %d) ", $taxomony_id);
@@ -296,6 +296,7 @@ foreach ( $authors as $id ) {
 </select>
 </td>
 </tr>
+<?php if(version_compare($wpdb->db_version(), '4.1', 'ge')) { ?>
 <tr>
 <th><label for="category"><?php _e('Restrict Category'); ?></label></th>
 <td>
@@ -312,6 +313,7 @@ if($categories) {
 </select>
 </td>
 </tr>
+<?php } ?>
 <tr>
 <th><label for="post_type"><?php _e('Restrict Content'); ?></label></th>
 <td>

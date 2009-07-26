@@ -43,6 +43,9 @@ Support can be obtained through:
 
 == Changelog ==
 
+= 2.8.2 =
+* Added support for MySQL 4.0.
+
 = 2.8.1 =
 * Fixed issue where selecting an author generated an export with no posts.
 
