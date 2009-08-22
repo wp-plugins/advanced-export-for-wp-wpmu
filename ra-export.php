@@ -3,7 +3,7 @@
 Plugin Name: Advanced Export for WordPress & WordPress MU 
 Plugin URI: http://wpmututorials.com/
 Description: Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
-Version: 2.8.2
+Version: 2.8.3
 Author: Ron Rennick
 Author URI: http://ronandandrea.com/
  
@@ -31,7 +31,7 @@ if(isset($_GET['page']) && $_GET['page'] == 'ra_export' && isset( $_GET['downloa
 	add_action('init', 'ra_do_export');
 }
 function ra_do_export() {
-	if(current_user_can('import')) {
+	if(current_user_can('edit_files')) {
 		$author = isset($_GET['author']) ? $_GET['author'] : 'all';
 		$category = isset($_GET['category']) ? $_GET['category'] : 'all';
 		$post_type = isset($_GET['post_type']) ? wp_specialchars($_GET['post_type']) : 'all';
@@ -40,6 +40,7 @@ function ra_do_export() {
 		$mm_end = isset($_GET['mm_end']) ? $_GET['mm_end'] : 'all';
 		$aa_start = isset($_GET['aa_start']) ? intval($_GET['aa_start']) : 0;
 		$aa_end = isset($_GET['aa_end']) ? intval($_GET['aa_end']) : 0;
+		$terms = isset($_GET['terms']) ? wp_specialchars($_GET['terms']) : 'all';
 		if($mm_start != 'all' && $aa_start > 0) {
 			$start_date = sprintf( "%04d-%02d-%02d", $aa_start, $mm_start, 1 );
 		} else {
@@ -57,11 +58,11 @@ function ra_do_export() {
 			$end_date = 'all';
 		}
 		ra_export_setup();
-		ra_export_wp( $author, $category, $post_type, $status, $start_date, $end_date );
+		ra_export_wp( $author, $category, $post_type, $status, $start_date, $end_date, $terms );
 		die();
 	}
 }	
-function ra_export_wp($author='', $category='', $post_type='', $status='', $start_date='', $end_date='') {
+function ra_export_wp($author='', $category='', $post_type='', $status='', $start_date='', $end_date='', $terms = '') {
 	global $wpdb, $post_ids, $post;
 
 	define('WXR_VERSION', '1.0');
@@ -164,10 +165,10 @@ function ra_export_wp($author='', $category='', $post_type='', $status='', $star
 	<wp:wxr_version><?php echo WXR_VERSION; ?></wp:wxr_version>
 	<wp:base_site_url><?php echo wxr_site_url(); ?></wp:base_site_url>
 	<wp:base_blog_url><?php bloginfo_rss('url'); ?></wp:base_blog_url>
-<?php if ( $cats ) : foreach ( $cats as $c ) : ?>
+<?php if ( $cats && ($terms == 'all' || $terms == 'cats')) : foreach ( $cats as $c ) : ?>
 	<wp:category><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->name : ''; ?></wp:category_parent><?php wxr_cat_name($c); ?><?php wxr_category_description($c); ?></wp:category>
 <?php endforeach; endif; ?>
-<?php if ( $tags ) : foreach ( $tags as $t ) : ?>
+<?php if ( $tags && ($terms == 'all' || $terms == 'tags')) : foreach ( $tags as $t ) : ?>
 	<wp:tag><wp:tag_slug><?php echo $t->slug; ?></wp:tag_slug><?php wxr_tag_name($t); ?><?php wxr_tag_description($t); ?></wp:tag>
 <?php endforeach; endif; ?>
 	<?php do_action('rss2_head'); ?>
@@ -244,7 +245,7 @@ if ( $comments ) { foreach ( $comments as $c ) { ?>
 
 function ra_export_page() {
 	global $wpdb, $wp_locale; 
-	if(!current_user_can('import')) {
+	if(!current_user_can('edit_files')) {
 		die( 'You don\'t have permissions to use this page.' );
 	} 
 	$months = "";
@@ -333,6 +334,17 @@ if($categories) {
 <option value="private"><?php _e('Privately published'); ?></option>
 <option value="publish"><?php _e('Published'); ?></option>
 <option value="future"><?php _e('Scheduled'); ?></option>
+</select>
+</td>
+</tr>
+<tr>
+<th><label for="terms"><?php _e('Include Blog Tag/Category Terms'); ?></label></th>
+<td>
+<select name="terms" id="terms">
+<option value="all" selected="selected"><?php _e('All Terms'); ?></option>
+<option value="cats"><?php _e('Categories'); ?></option>
+<option value="tags"><?php _e('Tags'); ?></option>
+<option value="none"><?php _e('None'); ?></option>
 </select>
 </td>
 </tr>

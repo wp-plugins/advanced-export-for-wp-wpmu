@@ -2,14 +2,14 @@
 Contributors: wpmuguru
 Tags: export, plugin, wordpress, wpmu 
 Requires at least: 2.7
-Tested up to: 2.8.2
+Tested up to: 2.8.4
 Stable tag: trunk
 
 Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
 
 == Description ==
 
-Working with a single large export file can be difficult. Use this plugin to create multiple export files that contain sections of your blog. This plugin has been tested on WP  & WPMU versions 2.7 - 2.8.2. The plugin may work on earlier versions of WP/WPMU. 
+Working with a single large export file can be difficult. Use this plugin to create multiple export files that contain sections of your blog. This plugin has been tested on WP  & WPMU versions 2.7 - 2.8.4. The plugin may work on earlier versions of WP/WPMU. 
 
 All restriction options provided in the plugin are *optional*. If no restrictions are selected, this plugin generates the same export file as the export feature built into WP & WPMU.
 
@@ -22,6 +22,7 @@ Export by any optional combination of:
 *	*Category* - Export a specific category
 *	*Content type* - Choose either posts or pages
 *	*Post status* - Choose Draft, Published, Scheduled or Private
+*	*Blog Tag/Category Terms* - Choose whether to include the blog's complete list of Tags and/or Categories
 
 Support can be obtained through:
 
@@ -40,6 +41,10 @@ Support can be obtained through:
 1. Go to Tools -> Advanced Export
 
 == Changelog ==
+
+= 2.8.3 =
+* Changed required permission to be consistent with required export permission in WP.
+* Added ability to exclude the blog's Tags/Category lists.
 
 = 2.8.2 =
 * Added support for MySQL 4.0.
