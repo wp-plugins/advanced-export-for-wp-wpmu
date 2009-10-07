@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Advanced Export for WordPress & WordPress MU 
-Plugin URI: http://wpmututorials.com/
+Plugin URI: http://wpmututorials.com/plugins/advanced-export/
 Description: Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
 Version: 2.8.3
 Author: Ron Rennick
