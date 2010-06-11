@@ -9,6 +9,8 @@ Adds an Advanced Export to the Tools menu which allows selective exporting of pa
 
 == Description ==
 
+*The functionality in this plugin was incorporated into the built in export feature in WordPress 3.0*
+
 Working with a single large export file can be difficult. Use this plugin to create multiple export files that contain sections of your blog. This plugin has been tested on WP  & WPMU versions 2.7 - 2.8.4. The plugin may work on earlier versions of WP/WPMU. 
 
 All restriction options provided in the plugin are *optional*. If no restrictions are selected, this plugin generates the same export file as the export feature built into WP & WPMU.
