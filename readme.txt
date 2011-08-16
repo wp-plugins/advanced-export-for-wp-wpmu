@@ -2,7 +2,7 @@
 Contributors: wpmuguru
 Tags: export, plugin, wordpress, wpmu 
 Requires at least: 2.7
-Tested up to: 2.8.4
+Tested up to: 2.9.2
 Stable tag: trunk
 
 Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
