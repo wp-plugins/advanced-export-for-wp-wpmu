@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Advanced Export for WordPress & WordPress MU 
+Plugin Name: Advanced Export
 Plugin URI: http://wpmututorials.com/plugins/advanced-export/
 Description: Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
-Version: 2.8.3
+Version: 2.9
 Author: Ron Rennick
 Author URI: http://ronandandrea.com/
  
@@ -34,13 +34,13 @@ function ra_do_export() {
 	if(current_user_can('edit_files')) {
 		$author = isset($_GET['author']) ? $_GET['author'] : 'all';
 		$category = isset($_GET['category']) ? $_GET['category'] : 'all';
-		$post_type = isset($_GET['post_type']) ? wp_specialchars($_GET['post_type']) : 'all';
-		$status = isset($_GET['status']) ? wp_specialchars($_GET['status']) : 'all';
+		$post_type = isset($_GET['post_type']) ? stripslashes($_GET['post_type']) : 'all';
+		$status = isset($_GET['status']) ? stripslashes($_GET['status']) : 'all';
 		$mm_start = isset($_GET['mm_start']) ? $_GET['mm_start'] : 'all';
 		$mm_end = isset($_GET['mm_end']) ? $_GET['mm_end'] : 'all';
 		$aa_start = isset($_GET['aa_start']) ? intval($_GET['aa_start']) : 0;
 		$aa_end = isset($_GET['aa_end']) ? intval($_GET['aa_end']) : 0;
-		$terms = isset($_GET['terms']) ? wp_specialchars($_GET['terms']) : 'all';
+		$terms = isset($_GET['terms']) ? stripslashes($_GET['terms']) : 'all';
 		if($mm_start != 'all' && $aa_start > 0) {
 			$start_date = sprintf( "%04d-%02d-%02d", $aa_start, $mm_start, 1 );
 		} else {
@@ -245,9 +245,12 @@ if ( $comments ) { foreach ( $comments as $c ) { ?>
 
 function ra_export_page() {
 	global $wpdb, $wp_locale; 
-	if(!current_user_can('edit_files')) {
+
+	if ( ! current_user_can( 'edit_files' ) )
 		die( 'You don\'t have permissions to use this page.' );
-	} 
+
+	load_plugin_textdomain( 'ra-export', false, '/advanced-export-for-wp-wpmu/languages/' );
+
 	$months = "";
 	for ( $i = 1; $i < 13; $i++ ) {
 		$months .= "\t\t\t<option value=\"" . zeroise($i, 2) . '">' . 
@@ -255,38 +258,38 @@ function ra_export_page() {
 	} ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2>
+<h2><?php esc_html_e( 'Advanced Export', 'ra-export' ); ?></h2>
 
-<p><?php _e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
-<p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
-<p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>
+<p><?php esc_html_e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
+<p><?php esc_html_e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
+<p><?php esc_html_e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>
 <form action="" method="get">
 <input type="hidden" name="page" value="ra_export" />
-<h3><?php _e('Options'); ?></h3>
+<h3><?php esc_html_e('Options', 'ra-export' ); ?></h3>
 
 <table class="form-table">
 <tr>
-<th><label for="mm_start"><?php _e('Restrict Date'); ?></label></th>
-<td><strong><?php _e('Start:'); ?></strong> <?php _e('Month'); ?>&nbsp;
+<th><label for="mm_start"><?php esc_html_e('Restrict Date', 'ra-export' ); ?></label></th>
+<td><strong><?php esc_html_e('Start:', 'ra-export' ); ?></strong> <?php esc_html_e('Month', 'ra-export' ); ?>&nbsp;
 <select name="mm_start" id="mm_start">
-<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Dates', 'ra-export' ); ?></option>
 <?php echo $months; ?>
-</select>&nbsp;<?php _e('Year'); ?>&nbsp;
+</select>&nbsp;<?php esc_html_e('Year', 'ra-export' ); ?>&nbsp;
 <input type="text" id="aa_start" name="aa_start" value="" size="4" maxlength="5" />
 </td>
-<td><strong><?php _e('End:'); ?></strong> <?php _e('Month'); ?>&nbsp;
+<td><strong><?php esc_html_e('End:', 'ra-export' ); ?></strong> <?php esc_html_e('Month', 'ra-export' ); ?>&nbsp;
 <select name="mm_end" id="mm_end">
-<option value="all" selected="selected"><?php _e('All Dates'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Dates', 'ra-export' ); ?></option>
 <?php echo $months; ?>
-</select>&nbsp;<?php _e('Year'); ?>&nbsp;
+</select>&nbsp;<?php esc_html_e('Year', 'ra-export' ); ?>&nbsp;
 <input type="text" id="aa_end" name="aa_end" value="" size="4" maxlength="5" />
 </td>
 </tr>
 <tr>
-<th><label for="author"><?php _e('Restrict Author'); ?></label></th>
+<th><label for="author"><?php esc_html_e('Restrict Author', 'ra-export' ); ?></label></th>
 <td>
 <select name="author" id="author">
-<option value="all" selected="selected"><?php _e('All Authors'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Authors', 'ra-export' ); ?></option>
 <?php
 $authors = $wpdb->get_col( "SELECT post_author FROM $wpdb->posts GROUP BY post_author" );
 foreach ( $authors as $id ) {
@@ -299,10 +302,10 @@ foreach ( $authors as $id ) {
 </tr>
 <?php if(version_compare($wpdb->db_version(), '4.1', 'ge')) { ?>
 <tr>
-<th><label for="category"><?php _e('Restrict Category'); ?></label></th>
+<th><label for="category"><?php esc_html_e('Restrict Category', 'ra-export' ); ?></label></th>
 <td>
 <select name="category" id="category">
-<option value="all" selected="selected"><?php _e('All Categories'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Categories', 'ra-export' ); ?></option>
 <?php
 $categories = (array) get_categories('get=all');
 if($categories) {
@@ -316,40 +319,40 @@ if($categories) {
 </tr>
 <?php } ?>
 <tr>
-<th><label for="post_type"><?php _e('Restrict Content'); ?></label></th>
+<th><label for="post_type"><?php  esc_html_e('Restrict Content', 'ra-export' ); ?></label></th>
 <td>
 <select name="post_type" id="post_type">
-<option value="all" selected="selected"><?php _e('All Content'); ?></option>
-<option value="page"><?php _e('Pages'); ?></option>
-<option value="post"><?php _e('Posts'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Content', 'ra-export' ); ?></option>
+<option value="page"><?php esc_html_e('Pages', 'ra-export' ); ?></option>
+<option value="post"><?php esc_html_e('Posts', 'ra-export' ); ?></option>
 </select>
 </td>
 </tr>
 <tr>
-<th><label for="status"><?php _e('Restrict Status'); ?></label></th>
+<th><label for="status"><?php esc_html_e('Restrict Status', 'ra-export' ); ?></label></th>
 <td>
 <select name="status" id="status">
-<option value="all" selected="selected"><?php _e('All Statuses'); ?></option>
-<option value="draft"><?php _e('Draft'); ?></option>
-<option value="private"><?php _e('Privately published'); ?></option>
-<option value="publish"><?php _e('Published'); ?></option>
-<option value="future"><?php _e('Scheduled'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Statuses', 'ra-export' ); ?></option>
+<option value="draft"><?php esc_html_e('Draft', 'ra-export' ); ?></option>
+<option value="private"><?php esc_html_e('Privately published', 'ra-export' ); ?></option>
+<option value="publish"><?php esc_html_e('Published', 'ra-export' ); ?></option>
+<option value="future"><?php esc_html_e('Scheduled', 'ra-export' ); ?></option>
 </select>
 </td>
 </tr>
 <tr>
-<th><label for="terms"><?php _e('Include Blog Tag/Category Terms'); ?></label></th>
+<th><label for="terms"><?php esc_html_e('Include Blog Tag/Category Terms', 'ra-export' ); ?></label></th>
 <td>
 <select name="terms" id="terms">
-<option value="all" selected="selected"><?php _e('All Terms'); ?></option>
-<option value="cats"><?php _e('Categories'); ?></option>
-<option value="tags"><?php _e('Tags'); ?></option>
-<option value="none"><?php _e('None'); ?></option>
+<option value="all" selected="selected"><?php esc_html_e('All Terms', 'ra-export' ); ?></option>
+<option value="cats"><?php esc_html_e('Categories', 'ra-export' ); ?></option>
+<option value="tags"><?php esc_html_e('Tags', 'ra-export' ); ?></option>
+<option value="none"><?php esc_html_e('None', 'ra-export' ); ?></option>
 </select>
 </td>
 </tr>
 </table>
-<p class="submit"><input type="submit" name="submit" class="button" value="<?php _e('Download Export File'); ?>" />
+<p class="submit"><input type="submit" name="submit" class="button" value="<?php esc_html_e('Download Export File', 'ra-export' ); ?>" />
 <input type="hidden" name="download" value="true" />
 </p>
 </form>
@@ -357,7 +360,7 @@ if($categories) {
 <?php
 }
 function ra_add_export_page() {
-   	add_management_page('Advanced Export', 'Advanced Export', 10, 'ra_export', 'ra_export_page');
+   	add_management_page('Advanced Export', 'Advanced Export', 'manage_options', 'ra_export', 'ra_export_page');
 }
 add_action('admin_menu', 'ra_add_export_page');
 

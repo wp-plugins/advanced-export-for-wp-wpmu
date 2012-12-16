@@ -1,8 +1,8 @@
 === Advanced Export for WP & WPMU ===
 Contributors: wpmuguru
-Tags: export, plugin, wordpress, wpmu 
+Tags: export, wordpress, wpmu, multisite 
 Requires at least: 2.7
-Tested up to: 2.9.2
+Tested up to: 3.5
 Stable tag: trunk
 
 Adds an Advanced Export to the Tools menu which allows selective exporting of pages, posts, specific categories and/or post statuses by date.
@@ -28,21 +28,19 @@ Export by any optional combination of:
 
 Support can be obtained through:
 
-[Try the Wordpress Forums first](http://wordpress.org/tags/advanced-export-for-wp-wpmu?forum_id=10#postform)
-
-[Twitter](http://twitter.com/wpmuguru)
-
-[WPMU Tutorials](http://wpmututorials.com/contact/)
-
-[Ron and Andrea](http://ronandandrea.com/contact/)
+[WordPress Forums](http://wordpress.org/tags/advanced-export-for-wp-wpmu?forum_id=10#postform)
 
 == Installation ==
 
-1. Upload `ra-export.php` to the `/wp-content/plugins/` directory
+1. Upload the `advanced-export-for-wp-wpmu` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Go to Tools -> Advanced Export
 
 == Changelog ==
+
+= 2.9 =
+* Fix deprecated warnings
+* Add translation support
 
 = 2.8.3 =
 * Changed required permission to be consistent with required export permission in WP.
